@@ -1,156 +1,195 @@
+// Employee Management System (Console Version)
 
+let employeees = [];
 
-let employees = [];
+while (true) {
+    let choice = prompt(
+        `========== Employee Management System ==========
+1. Add Employee
+2. View All Employees
+3. Search Employee by ID
+4. Calculate Salary with Bonus
+5. Check Experience Level
+6. Delete Employee
+7. Exit
 
-function addEmployee() {
-    let id = employees.length + 1;
-    let name = "Employee" + id;
-    let salary = 30000;
-    let experience = 2;
-
-    let employee = {
-        id: id,
-        name: name,
-        salary: salary,
-        experience: experience
-    };
-
-    employees.push(employee);
-
-    console.log(`Employee Added Successfully!
-ID: ${id}
-Name: ${name}`);
-}
-
-
-
-function viewEmployees() {
-
-    if (employees.length === 0) {
-        console.log("No Employees Found");
-    } else {
-
-        console.log("Employee List:");
-
-        for (let emp of employees) {
-            console.log(`
-ID: ${emp.id}
-Name: ${emp.name}
-Salary: ${emp.salary}
-Experience: ${emp.experience} years
-`);
-        }
-    }
-}
-
-
-function searchEmployee() {
-
-    let searchId = 1;
-
-    let found = false;
-
-    for (let emp of employees) {
-
-        if (emp.id === searchId) {
-            console.log(`
-Employee Found:
-ID: ${emp.id}
-Name: ${emp.name}
-Salary: ${emp.salary}
-`);
-            found = true;
-        }
-    }
-
-    if (!found) {
-        console.log("Employee Not Found");
-    }
-}
-
-
-function calculateSalary() {
-
-    for (let emp of employees) {
-
-        let bonus;
-
-        if (emp.experience >= 5) {
-            bonus = emp.salary * 20 / 100;
-        } 
-        else {
-            bonus = emp.salary * 10 / 100;
-        }
-
-        let totalSalary = emp.salary + bonus;
-
-        console.log(`
-${emp.name}
-Bonus: ${bonus}
-Total Salary: ${totalSalary}`);
-    }
-}
-
-
-function experienceLevel() {
-
-    for (let emp of employees) {
-
-        if (emp.experience >= 5) {
-            console.log(`${emp.name}: Senior Employee`);
-        } 
-        else {
-            console.log(`${emp.name}: Junior Employee`);
-        }
-    }
-}
-
-
-function deleteEmployee() {
-
-    let deleteId = 1;
-
-    employees = employees.filter(
-        emp => emp.id !== deleteId
+Enter your choice:`
     );
 
-    console.log("Employee Deleted");
-}
+    switch (choice) {
 
+        // Add Employee
+        case "1":
+            let id = prompt("Enter Employee ID:");
+            let name = prompt("Enter Employee Name:");
+            let age = Number(prompt("Enter Age:"));
+            let department = prompt("Enter Department:");
+            let salary = Number(prompt("Enter Salary:"));
+            let experience = Number(prompt("Enter Experience (Years):"));
 
+            let employee = {
+                id,
+                name,
+                age,
+                department,
+                salary,
+                experience
+            };
 
-let choice = 1;
+            employeees.push(employee);
+            console.log("Employee Added Successfully!");
+            break;
 
-switch(choice) {
+        // View All Employees
+        case "2":
+            if (employeees.length === 0) {
+                console.log("No Employees Found.");
+            } else {
+                console.log("------ Employee List ------");
 
-    case 1:
-        addEmployee();
+                for (let emp of employeees) {
+                    console.log(`
+ID          : ${emp.id}
+Name        : ${emp.name}
+Age         : ${emp.age}
+Department  : ${emp.department}
+Salary      : ${emp.salary}
+Experience  : ${emp.experience} Years
+--------------------------------`);
+                }
+            }
+            break;
+
+        // Search Employee by ID
+        case "3":
+            let searchId = prompt("Enter Employee ID:");
+
+            let found = false;
+
+            for (let emp of employeees) {
+                if (emp.id === searchId) {
+                    console.log(`
+Employee Found
+ID: ${emp.id}
+Name: ${emp.name}
+Department: ${emp.department}
+Salary: ${emp.salary}`);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                console.log("Employee Not Found.");
+            }
+            break;
+
+        // Calculate Salary with Bonus
+        case "4":
+            let bonusId = prompt("Enter Employee ID:");
+
+            let bonusFound = false;
+
+            for (let emp of employeees) {
+
+                if (emp.id === bonusId) {
+
+                    let bonus = 0;
+
+                    if (emp.experience >= 10) {
+                        bonus = emp.salary * 0.20;
+                    } else if (emp.experience >= 5) {
+                        bonus = emp.salary * 0.10;
+                    } else {
+                        bonus = emp.salary * 0.05;
+                    }
+
+                    console.log(`
+Employee: ${emp.name}
+Salary: ${emp.salary}
+Bonus: ${bonus}
+Total Salary: ${emp.salary + bonus}`);
+
+                    bonusFound = true;
+                    break;
+                }
+            }
+
+            if (!bonusFound) {
+                console.log("Employee Not Found.");
+            }
+
+            break;
+
+        // Check Experience Level
+        case "5":
+
+            let expId = prompt("Enter Employee ID:");
+
+            let expFound = false;
+
+            for (let emp of employeees) {
+
+                if (emp.id === expId) {
+
+                    let level = "";
+
+                    if (emp.experience < 2) {
+                        level = "Fresher";
+                    } else if (emp.experience < 5) {
+                        level = "Junior";
+                    } else if (emp.experience < 10) {
+                        level = "Senior";
+                    } else {
+                        level = "Expert";
+                    }
+
+                    console.log(`${emp.name} is a ${level} Employee.`);
+
+                    expFound = true;
+                    break;
+                }
+            }
+
+            if (!expFound) {
+                console.log("Employee Not Found.");
+            }
+
+            break;
+
+        // Delete Employee
+        case "6":
+
+            let deleteId = prompt("Enter Employee ID:");
+
+            let deleted = false;
+
+            for (let i = 0; i < employeees.length; i++) {
+
+                if (employees[i].id === deleteId) {
+                    employees.splice(i, 1);
+                    console.log("Employee Deleted Successfully.");
+                    deleted = true;
+                    break;
+                }
+            }
+
+            if (!deleted) {
+                console.log("Employee Not Found.");
+            }
+
+            break;
+
+        // Exit
+        case "7":
+            console.log("Thank You! Exiting Employee Management System.");
+            break;
+
+        default:
+            console.log("Invalid Choice!");
+    }
+
+    if (choice === "7") {
         break;
-
-    case 2:
-        viewEmployees();
-        break;
-
-    case 3:
-        searchEmployee();
-        break;
-
-    case 4:
-        calculateSalary();
-        break;
-
-    case 5:
-        experienceLevel();
-        break;
-
-    case 6:
-        deleteEmployee();
-        break;
-
-    case 7:
-        console.log("Exit System");
-        break;
-
-    default:
-        console.log("Invalid Choice");
+    }
 }
